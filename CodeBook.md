@@ -99,6 +99,7 @@ The complete list of variables of each feature vector is available in 'features.
 ## 4. Explanation for how to manipulate raw data into the tidy data set required
 
 The first step is read data files into R and puts the data into dataframes. When read data from training data files and test data files, consolidate training and testing data. Those are below codes do in the script:
+
 --------------------------------------------------------------------------------------------------------
 activity_labels <- read.table("activity_labels.txt")
 
