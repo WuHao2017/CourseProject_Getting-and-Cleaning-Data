@@ -97,3 +97,4 @@ The complete list of variables of each feature vector is available in 'features.
 - From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
 ## 4. Explanation for how to manipulate raw data into the tidy data set required
+
