@@ -98,7 +98,7 @@ The complete list of variables of each feature vector is available in 'features.
 
 ## 4. Explanation for how to manipulate raw data into the tidy data set required
 
-The first step is reading data files into R. When read data from training data files and test data files, consolidate training and testing data. Those are below codes do in the script:
+1) The first step is reading data files into R. When read data from training data files and test data files, consolidate training and testing data. Those are below codes do in the script:
 
 --------------------------------------------------------------------------------------------------------
 activity_labels <- read.table("activity_labels.txt")
@@ -113,14 +113,14 @@ subject <- rbind(read.table("./train/subject_train.txt"), read.table("./test/sub
 
 --------------------------------------------------------------------------------------------------------
 
-Then use join and mutate function to replace the actvity lable in the records with descriptive activity name:
+2) Then use join and mutate function to replace the actvity lable in the records with descriptive activity name:
 
 --------------------------------------------------------------------------------------------------------
 activity <- join(y, activity_labels, by = "V1") %>% transmute(activity = V2)
 
 --------------------------------------------------------------------------------------------------------
 
-Give descriptive name as 'subject' to the data set subject and give the descriptive names to variables in the data set 'X':
+3) Give descriptive name as 'subject' to the data set subject and give the descriptive names to variables in the data set 'X':
 
 --------------------------------------------------------------------------------------------------------
 names(subject) <- "subject"
@@ -129,4 +129,23 @@ names(X) <- features[, 2]
 
 --------------------------------------------------------------------------------------------------------
 
+4) Now it is turn to extract the measurements only on the mean and standard deviation. The variables with the column name which contains 'mean()' or 'std()' are the variables need to be extract from X. Regular expression was used to selected the target column in X.
 
+--------------------------------------------------------------------------------------------------------
+X <- X[, grep(".+(mean\\(\\)|std\\(\\)).*", names(X), invert = FALSE)]
+
+--------------------------------------------------------------------------------------------------------
+
+5) Then the script combine the subject information, descriptive activity information and measurements on mean/standard devication into one data set. Group the observations by subject and activity, summarise the results for each variables by mean.
+
+--------------------------------------------------------------------------------------------------------
+data_set <- cbind(subject, activity, X) %>% group_by(subject, activity) %>% summarise_all(mean)
+
+--------------------------------------------------------------------------------------------------------
+
+6) Write the data set into file 'data_set.txt'.
+
+--------------------------------------------------------------------------------------------------------
+write.table(data_set, file ="data_set.txt", row.names = FALSE)
+
+--------------------------------------------------------------------------------------------------------
