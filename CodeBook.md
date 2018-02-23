@@ -98,7 +98,7 @@ The complete list of variables of each feature vector is available in 'features.
 
 ## 4. Explanation for how to manipulate raw data into the tidy data set required
 
-The first step is read data files into R and puts the data into dataframes. When read data from training data files and test data files, consolidate training and testing data. Those are below codes do in the script:
+The first step is reading data files into R. When read data from training data files and test data files, consolidate training and testing data. Those are below codes do in the script:
 
 --------------------------------------------------------------------------------------------------------
 activity_labels <- read.table("activity_labels.txt")
@@ -110,6 +110,21 @@ X <- rbind(read.table("./train/X_train.txt"), read.table("./test/X_test.txt"))
 y <- rbind(read.table("./train/y_train.txt"), read.table("./test/y_test.txt"))
 
 subject <- rbind(read.table("./train/subject_train.txt"), read.table("./test/subject_test.txt"))
+
+--------------------------------------------------------------------------------------------------------
+
+Then use join and mutate function to replace the actvity lable in the records with descriptive activity name:
+
+--------------------------------------------------------------------------------------------------------
+activity <- join(y, activity_labels, by = "V1") %>% transmute(activity = V2)
+
+--------------------------------------------------------------------------------------------------------
+
+Give descriptive name as 'subject' to the data set subject and give the descriptive names to variables in the data set 'X':
+
+--------------------------------------------------------------------------------------------------------
+names(subject) <- "subject"
+names(X) <- features[, 2]
 
 --------------------------------------------------------------------------------------------------------
 
