@@ -18,6 +18,7 @@ For each record it is provided:
 - A 561-feature vector with time and frequency domain variables.
 - Its activity label.
 - An identifier of the subject who carried out the experiment.
+
 All these are recorded in several data files.
 
 ### Data files used
